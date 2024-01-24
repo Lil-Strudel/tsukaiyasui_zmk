@@ -1,0 +1,19 @@
+name: "Build Form"
+on:
+  workflow_dispatch:
+    inputs:
+      board:
+        description: "board"
+        required: true
+        type: string
+      shield:
+        description: "shield"
+        required: true
+        type: string
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
+    with:
+      board: ${{ github.event.inputs.board }}
+      shield: ${{ github.event.inputs.shield }}
