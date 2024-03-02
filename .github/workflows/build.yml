@@ -29,20 +29,16 @@ on:
         type: string
 
 jobs:
-  matrix:
+  gen-build-matrix:
     runs-on: ubuntu-latest
-    name: Fetch Build Keyboards
+    name: Generate Build Matrix
     outputs:
       build_matrix: ${{ env.build_matrix }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Install yaml2json
-        run: python -m pip install remarshal
+        uses: actions/checkout@v4
 
       - name: Parse Form Inputs
-        id: parse_inputs
         run: |
           # Split the shield input into an array
           IFS=',' read -ra SHIELDS <<< "${{ inputs.shield }}"
@@ -62,18 +58,45 @@ jobs:
           echo "build_matrix=$(cat build_matrix.json | jq -c .)" >> $GITHUB_ENV
           cat build_matrix.json | jq
 
+  gen-keymap:
+    runs-on: ubuntu-latest
+    name: Generate Keymap
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+
+      - name: Generate Keymap
+        run: |
+          go run cmd/gen-keymap/main.go -shield lily58 >> lily58.keymap
+          cat lily58.keymap
+
+      - name: Archive (lily58.keymap)
+        uses: actions/upload-artifact@v3
+        with:
+          name: lily58.keymap
+          path: lily58.keymap
+
   build:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
-    needs: matrix
+    needs: [gen-build-matrix, gen-keymap]
     name: Build
     strategy:
       fail-fast: false
-      matrix: ${{ fromJson(needs.matrix.outputs.build_matrix) }}
+      matrix: ${{ fromJson(needs.gen-build-matrix.outputs.build_matrix) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Download (lily58.keymap)
+        uses: actions/download-artifact@v3
+        with:
+          name: lily58.keymap
+          path: config
 
       - name: Create build directory
         run: |

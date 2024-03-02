@@ -21,7 +21,7 @@ func GenerateKeymap(shield string) string {
 
 	keymap := make(map[string]string)
 
-	maps.Copy(keymap, CoreKeymap)
+	maps.Copy(keymap, coreKeymap)
 	maps.Copy(keymap, leftKeymap)
 	maps.Copy(keymap, rightKeymap)
 	maps.Copy(keymap, thumbKeymap)

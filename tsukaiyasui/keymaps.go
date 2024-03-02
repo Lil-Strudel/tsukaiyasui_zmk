@@ -1,6 +1,6 @@
 package tsukaiyasui
 
-var CoreKeymap = map[string]string{
+var coreKeymap = map[string]string{
 	"C00": "&kp Q",
 	"C01": "&kp W",
 	"C02": "&kp E",
