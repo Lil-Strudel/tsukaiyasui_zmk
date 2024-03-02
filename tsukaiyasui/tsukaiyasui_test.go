@@ -5,5 +5,5 @@ import (
 )
 
 func Test(t *testing.T) {
-	GenerateLayout("corne")
+	GenerateKeymap("corne")
 }

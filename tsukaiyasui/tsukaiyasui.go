@@ -1,17 +1,17 @@
 package tsukaiyasui
 
 import (
+	// "fmt"
 	"embed"
-	"fmt"
 	"maps"
 	"slices"
 	"strings"
 )
 
-//go:embed adapters/*
+//go:embed adapters/* zmk/*
 var fs embed.FS
 
-func GenerateLayout(shield string) {
+func GenerateKeymap(shield string) string {
 	supportedShields := []string{"corne", "lily58"}
 
 	found := slices.Contains(supportedShields, shield)
@@ -35,20 +35,49 @@ func GenerateLayout(shield string) {
 	rows := strings.Split(adapter, "\n")
 	rows = rows[:len(rows)-1]
 
+	longestKeymap := make(map[int]int)
 	adaptedKeymap := make([][]string, len(rows))
-	for rowI := range rows {
+	for rowI := range adaptedKeymap {
 		adaptedKeymap[rowI] = strings.Split(rows[rowI], " ")
-
-		for keyI, part := range adaptedKeymap[rowI] {
-			keymap, ok := keymap[part]
-			if ok {
-				adaptedKeymap[rowI][keyI] = keymap
+		for keyI, keyCode := range adaptedKeymap[rowI] {
+			var thisKeymap string
+			if keyCode == "___" {
+				thisKeymap = ""
 			} else {
-				adaptedKeymap[rowI][keyI] = "&none"
+				keymap, ok := keymap[keyCode]
+				if ok {
+					thisKeymap = keymap
+				} else {
+					thisKeymap = "&none"
+				}
+			}
+
+			adaptedKeymap[rowI][keyI] = thisKeymap
+
+			if longestKeymap[keyI] < len(thisKeymap) {
+				longestKeymap[keyI] = len(thisKeymap)
+			}
+		}
+	}
+
+	joinedAdaptedKeymap := make([]string, len(adaptedKeymap))
+	for rowI := range adaptedKeymap {
+		for keyI, key := range adaptedKeymap[rowI] {
+			spacesToAdd := longestKeymap[keyI] - len(key)
+			if spacesToAdd > 0 {
+				adaptedKeymap[rowI][keyI] = key + strings.Repeat(" ", spacesToAdd)
 			}
 		}
 
+		joinedAdaptedKeymap[rowI] = strings.Join(adaptedKeymap[rowI], "  ")
 	}
 
-	fmt.Println(adaptedKeymap)
+	keymapString := strings.Join(joinedAdaptedKeymap, "\n")
+
+	templateKeymapBytes, _ := fs.ReadFile("zmk/template.keymap")
+	templateKeymap := string(templateKeymapBytes)
+
+	exportKeymap := strings.Replace(templateKeymap, "**yasui base**", keymapString, 1)
+
+	return exportKeymap
 }
