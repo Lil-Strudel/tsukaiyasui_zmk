@@ -7,8 +7,8 @@ on:
         required: true
         type: choice
         options:
-          - Corne
-          - Lily58
+          - corne
+          - lily58
       board:
         description: "Enter the board (Microcontroller)"
         required: true

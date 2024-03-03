@@ -4,12 +4,12 @@ name: Modified reusable user config build
 on:
   workflow_call:
     inputs:
-      board:
-        description: "Microcontroller"
+      shield:
+        description: "Shield"
         required: true
         type: string
-      shield:
-        description: "Keyboard"
+      board:
+        description: "Board"
         required: true
         type: string
       config_path:
@@ -38,20 +38,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Parse Form Inputs
+      - name: Setup Go
+        uses: actions/setup-go@v5
+
+      - name: Generate Build Matrix
         run: |
-          # Split the shield input into an array
-          IFS=',' read -ra SHIELDS <<< "${{ inputs.shield }}"
-
-          # Generate a include entry for each shield
-          echo "{\"include\": [" > build_matrix.json
-          for shield in "${SHIELDS[@]}"; do
-            echo "  {\"board\": \"${{ inputs.board }}\", \"shield\": \"$shield\"}," >> build_matrix.json
-          done
-
-          # Remove the trailing comma from the last element
-          sed -i '$ s/,$//' build_matrix.json
-          echo "]}" >> build_matrix.json
+          go run cmd/gen-build-matrix/main.go -shield "${{ inputs.shield }}" -board "${{ inputs.board }}" >> build_matrix.json
 
       - name: Output Build Matrix
         run: |
@@ -70,14 +62,14 @@ jobs:
 
       - name: Generate Keymap
         run: |
-          go run cmd/gen-keymap/main.go -shield lily58 >> lily58.keymap
-          cat lily58.keymap
+          go run cmd/gen-keymap/main.go -shield "${{ inputs.shield }}" >> ${{ inputs.shield }}.keymap
+          cat ${{ inputs.shield }}.keymap
 
-      - name: Archive (lily58.keymap)
+      - name: Archive (${{ inputs.shield }}.keymap)
         uses: actions/upload-artifact@v3
         with:
-          name: lily58.keymap
-          path: lily58.keymap
+          name: ${{ inputs.shield }}.keymap
+          path: ${{ inputs.shield }}.keymap
 
   build:
     runs-on: ubuntu-latest
@@ -92,10 +84,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download (lily58.keymap)
+      - name: Download (${{ inputs.shield }}.keymap)
         uses: actions/download-artifact@v3
         with:
-          name: lily58.keymap
+          name: ${{ inputs.shield }}.keymap
           path: config
 
       - name: Create build directory

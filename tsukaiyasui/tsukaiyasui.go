@@ -1,10 +1,9 @@
 package tsukaiyasui
 
 import (
-	// "fmt"
 	"embed"
+	"encoding/json"
 	"maps"
-	"slices"
 	"strings"
 )
 
@@ -12,12 +11,7 @@ import (
 var fs embed.FS
 
 func GenerateKeymap(shield string) string {
-	supportedShields := []string{"corne", "lily58"}
-
-	found := slices.Contains(supportedShields, shield)
-	if !found {
-		panic("Unsupported shield")
-	}
+	validateShield(shield)
 
 	keymap := make(map[string]string)
 
@@ -30,10 +24,9 @@ func GenerateKeymap(shield string) string {
 	maps.Copy(keymap, numberRowKeymap)
 
 	adapterBytes, _ := fs.ReadFile("adapters/" + shield + ".yasui")
-	adapter := string(adapterBytes)
+	adapterLayout := extractYasuiSection(string(adapterBytes), "layout")
 
-	rows := strings.Split(adapter, "\n")
-	rows = rows[:len(rows)-1]
+	rows := strings.Split(adapterLayout, "\n")
 
 	longestKeymap := make(map[int]int)
 	adaptedKeymap := make([][]string, len(rows))
@@ -80,4 +73,33 @@ func GenerateKeymap(shield string) string {
 	exportKeymap := strings.Replace(templateKeymap, "**yasui base**", keymapString, 1)
 
 	return exportKeymap
+}
+
+type build struct {
+	Board  string `json:"board"`
+	Shield string `json:"shield"`
+}
+
+type buildMatrix struct {
+	Include []build `json:"include"`
+}
+
+func GenerateBuildMatrix(shield, board string) string {
+	validateShield(shield)
+
+	adapterBytes, _ := fs.ReadFile("adapters/" + shield + ".yasui")
+	adapterShields := extractYasuiSection(string(adapterBytes), "shields")
+
+	shields := strings.Split(adapterShields, "\n")
+
+	layout := make([]build, len(shields))
+	for i, shield := range shields {
+		layout[i] = build{board, shield}
+	}
+
+	buildMatrix := buildMatrix{layout}
+
+	jsonBuildMatrix, _ := json.Marshal(buildMatrix)
+
+	return (string(jsonBuildMatrix))
 }
