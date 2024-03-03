@@ -2,13 +2,17 @@ name: "Build Form"
 on:
   workflow_dispatch:
     inputs:
-      board:
-        description: "board"
-        required: true
-        type: string
       shield:
-        description: "shield"
+        description: "Select the shield (Keyboard)"
         required: true
+        type: choice
+        options:
+          - Corne
+          - Lily58
+      board:
+        description: "Enter the board (Microcontroller)"
+        required: true
+        default: "nice_nano_v2"
         type: string
 jobs:
   build:

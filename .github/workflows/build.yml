@@ -1,15 +1,15 @@
 # Credit to https://github.com/zmkfirmware/zmk/blob/main/.github/workflows/build-user-config.yml
-name: Modified Reusable user config build
+name: Modified reusable user config build
 
 on:
   workflow_call:
     inputs:
       board:
-        description: "Microcontroller (nice_nano_v2)"
+        description: "Microcontroller"
         required: true
         type: string
       shield:
-        description: "Shield (corne_left)"
+        description: "Keyboard"
         required: true
         type: string
       config_path:
