@@ -4,8 +4,8 @@
 / {
     keymap {
         compatible = "zmk,keymap";
-
-        base {
+        Base {
+            label = "Base";
             bindings = <
 **yasui base**
             >;

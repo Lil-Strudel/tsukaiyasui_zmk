@@ -20,7 +20,7 @@ var coreKeymap = map[string]string{
 	"C16": "&kp J",
 	"C17": "&kp K",
 	"C18": "&kp L",
-	"C19": "&kp SEMI",
+	"C19": "&kp SEMICOLON",
 	"C20": "&kp Z",
 	"C21": "&kp X",
 	"C22": "&kp C",
@@ -29,20 +29,20 @@ var coreKeymap = map[string]string{
 	"C25": "&kp N",
 	"C26": "&kp M",
 	"C27": "&kp COMMA",
-	"C28": "&kp DOT",
-	"C29": "&kp FSLH",
+	"C28": "&kp PERIOD",
+	"C29": "&kp SLASH",
 }
 
 var leftKeymap = map[string]string{
 	"LB0": "&kp ESCAPE",
-	"LB1": "&kp LSHFT",
-	"LB2": "&kp LCTRL",
+	"LB1": "&kp LEFT_SHIFT",
+	"LB2": "&kp LEFT_CONTROL",
 }
 
 var rightKeymap = map[string]string{
-	"RB0": "&kp BSPC",
-	"RB1": "&kp SQT",
-	"RB2": "&kp RSHFT",
+	"RB0": "&kp BACKSPACE",
+	"RB1": "&kp SINGLE_QUOTE",
+	"RB2": "&kp RIGHT_SHIFT",
 }
 
 var thumbKeymap = map[string]string{
