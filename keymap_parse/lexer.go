@@ -106,6 +106,12 @@ type Lexer struct {
 	reader *bufio.Reader
 }
 
+type LexedToken struct {
+	position Position
+	token    Token
+	literal  string
+}
+
 func isEOF(err error) bool {
 	if err != nil {
 		if err == io.EOF {
