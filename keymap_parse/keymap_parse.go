@@ -2,12 +2,13 @@ package keymap_parse
 
 import (
 	"io"
+	"strings"
 )
 
 type Layer struct {
 	Order          int
-	Label          string
-	Bindings       string
+	DisplayName    string
+	Bindings       [][]string
 	SensorBindings string
 }
 
@@ -74,7 +75,19 @@ func ParseKeymap(file io.Reader) Keymap {
 					if token.literal == "bindings" {
 						if nextToken.token == ASSIGN {
 							nextNextToken := tokens[index+2]
-							layer.Bindings = nextNextToken.literal
+
+							bindings := nextNextToken.literal
+
+							rows := strings.Split(strings.Trim(bindings, "\n "), "\n")
+							keymapBindings := make([][]string, len(rows))
+							for i := 0; i < len(rows); i++ {
+								keymapBindings[i] = strings.Split(strings.Trim(rows[i], " ")[1:], "&")
+								for j := 0; j < len(keymapBindings[i]); j++ {
+									keymapBindings[i][j] = strings.Trim("&"+keymapBindings[i][j], " ")
+								}
+							}
+
+							layer.Bindings = keymapBindings
 						}
 					}
 					if token.literal == "sensor-bindings" {
@@ -83,10 +96,10 @@ func ParseKeymap(file io.Reader) Keymap {
 							layer.SensorBindings = nextNextToken.literal
 						}
 					}
-					if token.literal == "label" {
+					if token.literal == "display-name" {
 						if nextToken.token == ASSIGN {
 							nextNextToken := tokens[index+2]
-							layer.Label = nextNextToken.literal
+							layer.DisplayName = nextNextToken.literal
 						}
 					}
 

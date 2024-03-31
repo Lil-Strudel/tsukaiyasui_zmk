@@ -1,10 +1,12 @@
 package tsukaiyasui
 
 import (
+	"fmt"
 	"testing"
 )
 
 func Test(t *testing.T) {
-	GenerateKeymap("corne")
+	keymap := GenerateKeymap("corne")
+	fmt.Println(keymap)
 	GenerateBuildMatrix("corne", "nice_nano_v2")
 }
