@@ -20,3 +20,6 @@ Shield
 Left Space-Right Space
 Layout (QWERTY vs COLEMAK CH)
 "Homerow" mods
+
+Putting this here so i dont lose it
+https://precondition.github.io/home-row-mods#putting-home-row-mods-on-almost-all-layers

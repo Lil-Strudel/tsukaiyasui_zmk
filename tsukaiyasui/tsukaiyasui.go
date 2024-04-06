@@ -17,7 +17,7 @@ func tab(tabs int) string {
 }
 
 func getLayoutCodes() [][]string {
-	adapterBytes, _ := fs.ReadFile("adapters/corne.yasui")
+	adapterBytes, _ := fs.ReadFile("adapters/lily58.yasui")
 	adapterLayout := extractYasuiSection(string(adapterBytes), "layout")
 
 	rows := strings.Split(adapterLayout, "\n")
@@ -62,7 +62,7 @@ type Layer struct {
 func GenerateKeymap(shield string) string {
 	validateShield(shield)
 
-	file, ok := fs.Open("zmk/core.keymap")
+	file, ok := fs.Open("zmk/base.keymap")
 	if ok != nil {
 		panic("Could not read file")
 	}

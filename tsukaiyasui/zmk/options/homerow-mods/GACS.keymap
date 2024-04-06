@@ -1,0 +1,72 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+/ {
+    keymap {
+        compatible = "zmk,keymap";
+
+        Base {
+            bindings = <
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+&none  &kp LEFT_GUI  &LEFT_ALT  &LEFT_CONTROL  &LEFT_SHIFT  &none    &none  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &kp RIGHT_GUI  &none
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+                                &none          &none        &none    &none  &none            &none
+            >;
+        };
+
+        Function {
+            bindings = <
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+&none  &kp LEFT_GUI  &LEFT_ALT  &LEFT_CONTROL  &LEFT_SHIFT  &none    &none  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &kp RIGHT_GUI  &none
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+                                &none          &none        &none    &none  &none            &none
+            >;
+        };
+
+        Nav {
+            bindings = <
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+&none  &kp LEFT_GUI  &LEFT_ALT  &LEFT_CONTROL  &LEFT_SHIFT  &none    &none  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &kp RIGHT_GUI  &none
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+                                &none          &none        &none    &none  &none            &none
+            >;
+        };
+
+        Number {
+            bindings = <
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+&none  &kp LEFT_GUI  &LEFT_ALT  &LEFT_CONTROL  &LEFT_SHIFT  &none    &none  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &kp RIGHT_GUI  &none
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+                                &none          &none        &none    &none  &none            &none
+            >;
+        };
+
+        Symbol {
+            bindings = <
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+&none  &kp LEFT_GUI  &LEFT_ALT  &LEFT_CONTROL  &LEFT_SHIFT  &none    &none  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &kp RIGHT_GUI  &none
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+                                &none          &none        &none    &none  &none            &none
+            >;
+        };
+
+        Controls {
+            bindings = <
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+&none  &kp LEFT_GUI  &LEFT_ALT  &LEFT_CONTROL  &LEFT_SHIFT  &none    &none  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &kp RIGHT_GUI  &none
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+                                &none          &none        &none    &none  &none            &none
+            >;
+        };
+
+        Special {
+            bindings = <
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+&none  &kp LEFT_GUI  &LEFT_ALT  &LEFT_CONTROL  &LEFT_SHIFT  &none    &none  &kp RIGHT_SHIFT  &kp RIGHT_CONTROL  &kp RIGHT_ALT  &kp RIGHT_GUI  &none
+&none  &none         &none      &none          &none        &none    &none  &none            &none              &none          &none          &none
+                                &none          &none        &none    &none  &none            &none
+            >;
+        };
+
+    };
+};
